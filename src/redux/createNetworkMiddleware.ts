@@ -149,6 +149,12 @@ function createNetworkMiddleware({
     if (shouldInterceptAction && isConnected === false) {
       // Offline, preventing the original action from being dispatched.
       // Dispatching an internal action instead.
+
+      const shouldPreventAction = !action?.meta?.notPrevent
+      if (!shouldPreventAction) {
+        next(action)
+      }
+
       return next(fetchOfflineMode(action));
     }
 
